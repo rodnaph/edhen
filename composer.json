@@ -1,0 +1,15 @@
+{
+    "name": "rodnaph/edhen",
+    "description": "Reads/writes EDN",
+    "autoload": {
+        "psr-0": {
+            "": "lib/"
+        }
+    },
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    }
+}
