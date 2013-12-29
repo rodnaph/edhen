@@ -1,5 +1,7 @@
 <?php
 
+use Edhen\Tokenizer;
+
 class Edhen
 {
     public function encode($data)
@@ -8,5 +10,8 @@ class Edhen
 
     public function decode($edn)
     {
+        $tokenizer = new Tokenizer($edn);
+
+        return null;
     }
 }
