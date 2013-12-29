@@ -68,10 +68,11 @@ class Tokenizer
             switch ($type) {
 
                 case Token::KEYWORD:
-                    if (!$this->isWhitespace($c)) {
+                    if ($this->isKeywordCharacter($c)) {
                         $value .= $c;
                         break;
                     } else {
+                        $this->backtrack();
                         break 2;
                     }
 
@@ -206,6 +207,16 @@ class Tokenizer
     protected function isSymbolCharacter($c)
     {
         return preg_match('/^[0-9a-z.*+!\-_?$%&=#:]+$/i', $c);
+    }
+
+    /**
+     * @param string $c
+     *
+     * @return boolean
+     */
+    protected function isKeywordCharacter($c)
+    {
+        return $c == '/' || $this->isSymbolCharacter($c);
     }
 
     /**

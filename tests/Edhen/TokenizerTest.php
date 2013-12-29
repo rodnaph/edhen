@@ -119,6 +119,15 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
                 new Token(Token::PAREN_CLOSE)
             )
         );
+
+        $this->assertTokens(
+            '(:foo)',
+            array(
+                new Token(Token::PAREN_OPEN),
+                new Token(Token::KEYWORD, ':foo'),
+                new Token(Token::PAREN_CLOSE)
+            )
+        );
     }
 
     public function testMapsCanBeRead()

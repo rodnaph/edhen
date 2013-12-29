@@ -1,6 +1,7 @@
 <?php
 
 use Edhen\Tokenizer;
+use Edhen\Decoder;
 
 class Edhen
 {
@@ -11,7 +12,8 @@ class Edhen
     public function decode($edn)
     {
         $tokenizer = new Tokenizer($edn);
+        $decoder = new Decoder($tokenizer);
 
-        return null;
+        return $decoder->decode();
     }
 }
