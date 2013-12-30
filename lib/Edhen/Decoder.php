@@ -101,8 +101,10 @@ class Decoder
             }
 
             $valueToken = $this->nextToken();
+            $key = $this->decodeToken($keyToken);
+            $value = $this->decodeToken($valueToken);
 
-            $map[$keyToken->getValue()] = $valueToken->getValue();
+            $map[$key] = $value;
         }
     }
 

@@ -57,4 +57,9 @@ class DecoderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertDecoding(array(':foo' => 123), '{:foo 123}');
     }
+
+    public function testDecodingEmbeddedDataStructures()
+    {
+        $this->assertDecoding(array(':foo' => array(1, 2, 3)), '{:foo [1 2 3]}');
+    }
 }
