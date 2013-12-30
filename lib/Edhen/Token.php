@@ -5,79 +5,79 @@ namespace Edhen;
 class Token
 {
     /**
-     * @var integer
+     * @var string
      */
-    const BRACE_OPEN = 1;
+    const BRACE_OPEN = 'brace_open';
 
     /**
-     * @var integer
+     * @var string
      */
-    const BRACE_CLOSE = 2;
+    const BRACE_CLOSE = 'brace_close';
 
     /**
-     * @var integer
+     * @var string
      */
-    const KEYWORD = 3;
+    const KEYWORD = 'keyword';
 
     /**
-     * @var integer
+     * @var string
      */
-    const NUMERIC = 4;
+    const NUMERIC = 'numeric';
 
     /**
-     * @var integer
+     * @var string
      */
-    const BOOLEAN_TRUE = 5;
+    const BOOLEAN_TRUE = 'boolean_true';
 
     /**
-     * @var integer
+     * @var string
      */
-    const BOOLEAN_FALSE = 6;
+    const BOOLEAN_FALSE = 'boolean_false';
 
     /**
-     * @var integer
+     * @var string
      */
-    const LITERAL = 7;
+    const LITERAL = 'literal';
 
     /**
-     * @var integer
+     * @var string
      */
-    const NIL = 8;
+    const NIL = 'nil';
 
     /**
-     * @var integer
+     * @var string
      */
-    const SYMBOL = 9;
+    const SYMBOL = 'symbol';
 
     /**
-     * @var integer
+     * @var string
      */
-    const CHARACTER = 10;
+    const CHARACTER = 'character';
 
     /**
-     * @var integer
+     * @var string
      */
-    const PAREN_OPEN = 11;
+    const PAREN_OPEN = 'paren_open';
 
     /**
-     * @var integer
+     * @var string
      */
-    const PAREN_CLOSE = 12;
+    const PAREN_CLOSE = 'paren_close';
 
     /**
-     * @var integer
+     * @var string
      */
-    const SQUARE_OPEN = 13;
+    const SQUARE_OPEN = 'square_open';
 
     /**
-     * @var integer
+     * @var string
      */
-    const SQUARE_CLOSE = 14;
+    const SQUARE_CLOSE = 'square_close';
 
     /**
-     * @var integer
+     * @var string
      */
-    const HASH = 15;
+    const HASH = 'hash';
 
     /**
      * @var integer
