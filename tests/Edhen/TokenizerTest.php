@@ -22,19 +22,6 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($tokenizer->nextToken());
     }
 
-    public function testTokensCanBeRead()
-    {
-        $this->assertTokens(
-            '{:foo 123}',
-            array(
-                new Token(Token::BRACE_OPEN),
-                new Token(Token::KEYWORD, ':foo'),
-                new Token(Token::NUMERIC, '123'),
-                new Token(Token::BRACE_CLOSE)
-            )
-        );
-    }
-
     public function testBooleansCanBeRead()
     {
         $this->assertTokens(
@@ -94,6 +81,26 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
             '\b',
             array(
                 new Token(Token::CHARACTER, 'b')
+            )
+        );
+    }
+
+    public function testIntegersCanBeRead()
+    {
+        $this->assertTokens(
+            '123',
+            array(
+                new Token(Token::NUMERIC, 123)
+            )
+        );
+    }
+
+    public function testFloatingPointsCanBeRead()
+    {
+        $this->assertTokens(
+            '123.45',
+            array(
+                new Token(Token::NUMERIC, 123.45)
             )
         );
     }

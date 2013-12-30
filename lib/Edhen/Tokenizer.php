@@ -78,7 +78,7 @@ class Tokenizer
                     }
 
                 case Token::NUMERIC:
-                    if ($this->isNumeric($c)) {
+                    if ($this->isNumericCharacter($c)) {
                         $value .= $c;
                         break;
                     } else {
@@ -128,7 +128,7 @@ class Tokenizer
                         $value = $c;
                     } elseif ($c == '"') {
                         $type = Token::LITERAL;
-                    } elseif ($this->isNumeric($c)) {
+                    } elseif ($this->isNumericStart($c)) {
                         $type = Token::NUMERIC;
                         $value = $c;
                     } elseif ($this->isSymbolStart($c)) {
@@ -235,8 +235,18 @@ class Tokenizer
      *
      * return boolean
      */
-    protected function isNumeric($c)
+    protected function isNumericStart($c)
     {
         return preg_match('/^[0-9]$/', $c);
+    }
+
+    /**
+     * @param string $c
+     *
+     * return boolean
+     */
+    protected function isNumericCharacter($c)
+    {
+        return preg_match('/^[0-9\.]$/', $c);
     }
 }

@@ -5,11 +5,12 @@ use Edhen\Decoder;
 
 class Edhen
 {
-    public function encode($data)
-    {
-    }
-
-    public function decode($edn)
+    /**
+     * @param string $edn
+     *
+     * @return mixed
+     */
+    public static function decode($edn)
     {
         $tokenizer = new Tokenizer($edn);
         $decoder = new Decoder($tokenizer);
