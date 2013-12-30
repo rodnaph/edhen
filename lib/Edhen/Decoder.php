@@ -63,6 +63,10 @@ class Decoder
             case Token::BRACE_OPEN:
                 return $this->decodeMap();
 
+            case Token::HASH:
+                $this->nextToken();
+                return $this->decodeList(Token::BRACE_CLOSE);
+
             default:
                 return $token->getValue();
         }
