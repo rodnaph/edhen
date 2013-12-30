@@ -4,10 +4,11 @@ namespace Edhen;
 
 class DecoderTest extends \PHPUnit_Framework_TestCase
 {
-    protected function assertDecoding($expected, $edn)
+    protected function assertDecoding($expected, $edn, $debug = false)
     {
         $tokenizer = new Tokenizer($edn);
         $decoder = new Decoder($tokenizer);
+        $decoder->setDebug($debug);
 
         $this->assertEquals($expected, $decoder->decode());
     }
@@ -33,8 +34,27 @@ class DecoderTest extends \PHPUnit_Framework_TestCase
         $this->assertDecoding('a', '\a');
     }
 
+    public function testSymbolsAreDecodedToStrings()
+    {
+        $this->assertDecoding('abc', 'abc');
+    }
+
     public function testListsAreDecodedToArrays()
     {
         $this->assertDecoding(array(':foo'), '(:foo)');
+        $this->assertDecoding(array(1, 2), '(1 2)');
+        $this->assertDecoding(array(1, 2), '(1, 2)');
+    }
+
+    public function testVectorsAreDecodedToArrays()
+    {
+        $this->assertDecoding(array(':foo'), '[:foo]');
+        $this->assertDecoding(array(1, 2), '[1 2]');
+        $this->assertDecoding(array(1, 2), '[1, 2]');
+    }
+
+    public function testMapsAreDecodedToAssocArrays()
+    {
+        $this->assertDecoding(array(':foo' => 123), '{:foo 123}');
     }
 }

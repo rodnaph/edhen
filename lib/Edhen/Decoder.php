@@ -5,11 +5,29 @@ namespace Edhen;
 class Decoder
 {
     /**
+     * @var boolean
+     */
+    private $debug;
+
+    /**
      * @param Tokenizer $tokenizer
      */
     public function __construct(Tokenizer $tokenizer)
     {
         $this->tokenizer = $tokenizer;
+        $this->debug = false;
+    }
+
+    /**
+     * @param boolean $debug
+     *
+     * @return Decoder
+     */
+    public function setDebug($debug)
+    {
+        $this->debug = $debug;
+
+        return $this;
     }
 
     /**
@@ -22,6 +40,11 @@ class Decoder
         return $this->decodeToken($token);
     }
 
+    /**
+     * @param Token $token
+     *
+     * @return mixed
+     */
     protected function decodeToken(Token $token)
     {
         switch ($token->getType()) {
@@ -32,7 +55,13 @@ class Decoder
                 return false;
 
             case Token::PAREN_OPEN:
-                return $this->decodeList();
+                return $this->decodeList(Token::PAREN_CLOSE);
+
+            case Token::SQUARE_OPEN:
+                return $this->decodeList(Token::SQUARE_CLOSE);
+
+            case Token::BRACE_OPEN:
+                return $this->decodeMap();
 
             default:
                 return $token->getValue();
@@ -42,11 +71,15 @@ class Decoder
     /**
      * @return array
      */
-    protected function decodeList()
+    protected function decodeList($terminalToken)
     {
         $list = array();
 
-        for ($token = $this->nextToken(); $token->getType() != Token::PAREN_CLOSE; $token = $this->nextToken()) {
+        while ($token = $this->nextToken()) {
+            if ($token->getType() == $terminalToken) {
+                break;
+            }
+
             $list[] = $this->decodeToken($token);
         }
 
@@ -54,12 +87,46 @@ class Decoder
     }
 
     /**
+     * @return array
+     */
+    protected function decodeMap()
+    {
+        $map = array();
+
+        while (true) {
+            $keyToken = $this->nextToken();
+
+            if ($keyToken->getType() == Token::BRACE_CLOSE) {
+                return $map;
+            }
+
+            $valueToken = $this->nextToken();
+
+            $map[$keyToken->getValue()] = $valueToken->getValue();
+        }
+    }
+
+    /**
      * @return Token|null
      */
     protected function nextToken()
     {
-        return $this
+        $token = $this
             ->tokenizer
             ->nextToken();
+
+        if ($this->debug) {
+            if ($token) {
+                echo sprintf(
+                    "Token: %d, %s\n",
+                    $token->getType(),
+                    $token->getValue()
+                );
+            } else {
+                echo "NO TOKEN\n";
+            }
+        }
+
+        return $token;
     }
 }
