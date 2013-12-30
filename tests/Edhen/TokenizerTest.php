@@ -161,6 +161,15 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
 
     public function testSetsCanBeRead()
     {
-        $this->markTestIncomplete();
+        $this->assertTokens(
+            '#{1 :foo}',
+            array(
+                new Token(Token::HASH),
+                new Token(Token::BRACE_OPEN),
+                new Token(Token::NUMERIC, '1'),
+                new Token(Token::KEYWORD, ':foo'),
+                new Token(Token::BRACE_CLOSE)
+            )
+        );
     }
 }

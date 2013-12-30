@@ -77,6 +77,11 @@ class Token
     /**
      * @var integer
      */
+    const HASH = 15;
+
+    /**
+     * @var integer
+     */
     private $type;
 
     /**

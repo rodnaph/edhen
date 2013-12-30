@@ -10,7 +10,8 @@ class Tokenizer
         '(' => Token::PAREN_OPEN,
         ')' => Token::PAREN_CLOSE,
         '[' => Token::SQUARE_OPEN,
-        ']' => Token::SQUARE_CLOSE
+        ']' => Token::SQUARE_CLOSE,
+        '#' => Token::HASH
     );
 
     /**
