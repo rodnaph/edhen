@@ -29,6 +29,13 @@ $data = Edhen::decode('(1 :foo [2])');
 | maps              | array   |
 | sets              | array   |
 
+### Built Tags
+
+| EDN   | PHP      |
+| ----- | -------- |
+| inst  | DateTime |
+| uuid  | string   |
+
 ## Unsupported
 
 Currently not supported are:
