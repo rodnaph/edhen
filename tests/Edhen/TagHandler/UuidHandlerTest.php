@@ -25,6 +25,6 @@ class UuidHandlerTest extends \PHPUnit_Framework_TestCase
         $tokenizer = new Tokenizer('"' . $uuid . '"');
         $decoder = new Decoder($tokenizer);
 
-        $this->assertEquals($uuid, $this->handler->decode($decoder));
+        $this->assertEquals(array($uuid), $this->handler->decode($decoder));
     }
 }

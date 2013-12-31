@@ -19,6 +19,8 @@ class InstHandler extends BaseHandler
      */
     public function convert($data)
     {
-        return DateTime::createFromFormat(DateTime::RFC3339, $data);
+        return array(
+            DateTime::createFromFormat(DateTime::RFC3339, $data)
+        );
     }
 }

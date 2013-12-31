@@ -2,9 +2,11 @@
 
 namespace Edhen;
 
+use Edhen\Exception\UnknownTagException;
 use Edhen\TagHandler\InstHandler;
 use Edhen\TagHandler\SetHandler;
 use Edhen\TagHandler\UuidHandler;
+use Edhen\TagHandler\DiscardHandler;
 
 class Decoder
 {
@@ -27,7 +29,8 @@ class Decoder
         $this->tagHandlers = array(
             new SetHandler(),
             new InstHandler(),
-            new UuidHandler()
+            new UuidHandler(),
+            new DiscardHandler()
         );
     }
 
@@ -37,11 +40,16 @@ class Decoder
     public function decode()
     {
         $token = $this->tokenizer->nextToken();
+        $tokens = $this->decodeToken($token);
 
-        return $this->decodeToken($token);
+        return empty($tokens)
+            ? null
+            : $tokens[0];
     }
 
     /**
+     * @param string $terminalType
+     *
      * @return array
      */
     public function decodeAll($terminalType = null)
@@ -51,48 +59,44 @@ class Decoder
         while (true) {
             $token = $this->tokenizer->nextToken();
 
-            if (!$token) {
+            if (!$token || $token->getType() == $terminalType) {
                 return $list;
             }
 
-            if ($token->getType() == $terminalType) {
-                return $list;
-            }
+            $tokens = $this->decodeToken($token);
 
-            $list[] = $this->decodeToken($token);
+            $list = array_merge($list, $tokens);
         }
-
-        return $list;
     }
 
     /**
      * @param Token $token
      *
-     * @return mixed
+     * @return array
      */
     protected function decodeToken(Token $token)
     {
         switch ($token->getType()) {
             case Token::BOOLEAN_TRUE:
-                return true;
+                return array(true);
 
             case Token::BOOLEAN_FALSE:
-                return false;
+                return array(false);
 
             case Token::PAREN_OPEN:
-                return $this->decodeAll(Token::PAREN_CLOSE);
+                return array($this->decodeAll(Token::PAREN_CLOSE));
 
             case Token::SQUARE_OPEN:
-                return $this->decodeAll(Token::SQUARE_CLOSE);
+                return array($this->decodeAll(Token::SQUARE_CLOSE));
 
             case Token::TAG:
                 return $this->decodeTaggedElement($token);
 
             case Token::BRACE_OPEN:
-                return $this->decodeMap();
+                return array($this->decodeMap());
 
             default:
-                return $token->getValue();
+                return array($token->getValue());
         }
     }
 
@@ -111,8 +115,12 @@ class Decoder
             }
 
             $valueToken = $this->tokenizer->nextToken();
-            $key = $this->decodeToken($keyToken);
-            $value = $this->decodeToken($valueToken);
+
+            $keys = $this->decodeToken($keyToken);
+            $key = $keys[0];
+
+            $values = $this->decodeToken($valueToken);
+            $value = $values[0];
 
             $map[$key] = $value;
         }
@@ -128,5 +136,7 @@ class Decoder
                 return $handler->decode($this);
             }
         }
+
+        throw new UnknownTagException($token);
     }
 }

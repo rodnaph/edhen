@@ -20,10 +20,9 @@ class InstHandlerTest extends \PHPUnit_Framework_TestCase
         $decoder = new Decoder($tokenizer);
         $actual = $this
             ->handler
-            ->decode($decoder)
-            ->format(DateTime::RFC3339);
+            ->decode($decoder);
 
-        $this->assertEquals($input, $actual);
+        $this->assertEquals($input, $actual[0]->format(DateTime::RFC3339));
     }
 
     public function testCanHandle()

@@ -22,17 +22,19 @@ abstract class BaseHandler implements TagHandler
      */
     public function decode(Decoder $decoder)
     {
-        return $this->convert($decoder->decode());
+        return $this->convert(
+            $decoder->decode()
+        );
     }
 
     /**
      * @param mixed $data
      *
-     * @return mixed
+     * @return array
      */
     protected function convert($data)
     {
-        return $data;
+        return array($data);
     }
 
     /**

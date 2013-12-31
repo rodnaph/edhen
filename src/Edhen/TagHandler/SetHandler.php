@@ -22,6 +22,8 @@ class SetHandler implements TagHandler
      */
     public function decode(Decoder $decoder)
     {
-        return $decoder->decodeAll(Token::BRACE_CLOSE);
+        return array(
+            $decoder->decodeAll(Token::BRACE_CLOSE)
+        );
     }
 }

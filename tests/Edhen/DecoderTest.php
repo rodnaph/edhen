@@ -2,6 +2,8 @@
 
 namespace Edhen;
 
+use DateTime;
+
 class DecoderTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -16,12 +18,14 @@ class DecoderTest extends \PHPUnit_Framework_TestCase
 
     protected function assertDecode($expected, $edn, $debug = false)
     {
-        $this->assertEquals($expected, $this->decoder($edn, $debug)->decode());
+        $actual = $this->decoder($edn, $debug)->decode();
+        $this->assertEquals($expected, $actual);
     }
 
     protected function assertDecodeAll($expected, $edn, $debug = false)
     {
-        $this->assertEquals($expected, $this->decoder($edn, $debug)->decodeAll());
+        $actual = $this->decoder($edn, $debug)->decodeAll();
+        $this->assertEquals($expected, $actual);
     }
 
     public function testBooleansAreDecoded()
@@ -90,5 +94,38 @@ class DecoderTest extends \PHPUnit_Framework_TestCase
             array(':foo'),
             $this->decoder(':foo [1 2]')->decodeAll(Token::SQUARE_OPEN)
         );
+    }
+
+    public function testDecodingCanDiscardElements()
+    {
+        $this->assertDecode(array(1, 3), '[1 #_foo 3]');
+    }
+
+    public function testInstsAreDecoded()
+    {
+        $inst = '1996-12-19T16:39:57+00:00';
+
+        $this->assertDecode(
+            new DateTime('1996-12-19 16:39:57+00:00'),
+            "#inst \"$inst\""
+        );
+    }
+
+    public function testUuidsAreDecoded()
+    {
+        $uuid = 'f81d4fae-7dec-11d0-a765-00a0c91e6bf6';
+
+        $this->assertDecode(
+            $uuid,
+            "#uuid \"$uuid\""
+        );
+    }
+
+    /**
+     * @expectedException Edhen\Exception\UnknownTagException
+     */
+    public function testExceptionThrownWhenUnknownTagEncountered()
+    {
+        $this->assertDecode(null, '#unknown 1');
     }
 }

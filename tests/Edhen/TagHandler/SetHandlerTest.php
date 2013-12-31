@@ -25,7 +25,7 @@ class SetHandlerTest extends \PHPUnit_Framework_TestCase
         $decoder = new Decoder($tokenizer);
 
         $this->assertEquals(
-            array(':foo', array(1, 2)),
+            array(array(':foo', array(1, 2))),
             $this->handler->decode($decoder)
         );
     }

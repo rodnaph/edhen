@@ -65,7 +65,7 @@ class Tokenizer
         while (($c = $this->nextChar()) !== null) {
 
             if ($this->debug) {
-                echo "Character: $c\n";
+                echo "Char: $c\n";
             }
 
             switch ($type) {
@@ -128,7 +128,8 @@ class Tokenizer
                 default:
                     foreach (static::$CHARACTERS as $char => $token) {
                         if ($c == $char) {
-                            return new Token($token);
+                            $type = $token;
+                            break 3;
                         }
                     }
 
@@ -161,20 +162,24 @@ class Tokenizer
 
         }
 
-        if ($type) {
-            $token = $type == Token::SYMBOL
+        if ($type !== null) {
+            $token = ($type == Token::SYMBOL)
                 ? $this->interpretSymbol($value)
                 : new Token($type, $value);
 
             if ($this->debug) {
                 echo sprintf(
-                    "Token: %s '%s'",
+                    "Token: %s '%s'\n",
                     $token->getType(),
                     $token->getValue()
                 );
             }
 
             return $token;
+        } else {
+            if ($this->debug) {
+                echo "END OF TOKENS\n";
+            }
         }
     }
 
