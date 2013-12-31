@@ -5,7 +5,6 @@ namespace Edhen\TagHandler;
 use Edhen\Decoder;
 use Edhen\TagHandler;
 use Edhen\Token;
-use Edhen\Tokenizer;
 
 class SetHandler implements TagHandler
 {
@@ -20,7 +19,7 @@ class SetHandler implements TagHandler
     /**
      * {@inheritDoc}
      */
-    public function handle(Decoder $decoder, Tokenizer $tokenizer)
+    public function decode(Decoder $decoder)
     {
         return $decoder->decodeAll(Token::BRACE_CLOSE);
     }

@@ -12,9 +12,9 @@ interface TagHandler
     public function canHandle(Token $token);
 
     /**
-     * @param Tokenizer $tokenizer
+     * @param Decoder $decoder
      *
      * @return mixed
      */
-    public function handle(Decoder $decoder, Tokenizer $tokenizer);
+    public function decode(Decoder $decoder);
 }

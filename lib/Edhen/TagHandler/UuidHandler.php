@@ -2,29 +2,13 @@
 
 namespace Edhen\TagHandler;
 
-use Edhen\Decoder;
-use Edhen\TagHandler;
-use Edhen\Token;
-use Edhen\Tokenizer;
-
-class UuidHandler implements TagHandler
+class UuidHandler extends BaseHandler
 {
     /**
      * {@inheritDoc}
      */
-    public function canHandle(Token $token)
+    public function getSymbolValue()
     {
-        return $token->getType() == Token::SYMBOL
-            && $token->getValue() == 'uuid';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function handle(Decoder $decoder, Tokenizer $tokenizer)
-    {
-        return $tokenizer
-            ->expectToken(Token::LITERAL)
-            ->getValue();
+        return 'uuid';
     }
 }

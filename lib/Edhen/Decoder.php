@@ -127,7 +127,7 @@ class Decoder
 
         foreach ($this->tagHandlers as $handler) {
             if ($handler->canHandle($token)) {
-                return $handler->handle($this, $this->tokenizer);
+                return $handler->decode($this, $this->tokenizer);
             }
         }
     }

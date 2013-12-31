@@ -20,7 +20,7 @@ class InstHandlerTest extends \PHPUnit_Framework_TestCase
         $decoder = new Decoder($tokenizer);
         $actual = $this
             ->handler
-            ->handle($decoder, $tokenizer)
+            ->decode($decoder)
             ->format(DateTime::RFC3339);
 
         $this->assertEquals($input, $actual);

@@ -3,29 +3,22 @@
 namespace Edhen\TagHandler;
 
 use DateTime;
-use Edhen\Decoder;
-use Edhen\TagHandler;
-use Edhen\Token;
-use Edhen\Tokenizer;
 
-class InstHandler implements TagHandler
+class InstHandler extends BaseHandler
 {
     /**
      * {@inheritDoc}
      */
-    public function canHandle(Token $token)
+    public function getSymbolValue()
     {
-        return $token->getType() == Token::SYMBOL
-            && $token->getValue() == 'inst';
+        return 'inst';
     }
 
     /**
      * {@inheritDoc}
      */
-    public function handle(Decoder $decoder, Tokenizer $tokenizer)
+    public function convert($data)
     {
-        $token = $tokenizer->expectToken(Token::LITERAL);
-
-        return DateTime::createFromFormat(DateTime::RFC3339, $token->getValue());
+        return DateTime::createFromFormat(DateTime::RFC3339, $data);
     }
 }
