@@ -3,7 +3,7 @@
     "description": "Reads/writes EDN",
     "autoload": {
         "psr-0": {
-            "": "lib/"
+            "": "src/"
         }
     },
     "require": {
