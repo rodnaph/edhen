@@ -2,12 +2,19 @@
 
 namespace Edhen;
 
+use Edhen\TagHandler\SetHandler;
+
 class Decoder
 {
     /**
-     * @var boolean
+     * @var Tokenizer
      */
-    private $debug;
+    private $tokenizer;
+
+    /**
+     * @var array
+     */
+    private $tagHandlers;
 
     /**
      * @param Tokenizer $tokenizer
@@ -15,19 +22,9 @@ class Decoder
     public function __construct(Tokenizer $tokenizer)
     {
         $this->tokenizer = $tokenizer;
-        $this->debug = false;
-    }
-
-    /**
-     * @param boolean $debug
-     *
-     * @return Decoder
-     */
-    public function setDebug($debug)
-    {
-        $this->debug = $debug;
-
-        return $this;
+        $this->tagHandlers = array(
+            new SetHandler()
+        );
     }
 
     /**
@@ -35,9 +32,33 @@ class Decoder
      */
     public function decode()
     {
-        $token = $this->nextToken();
+        $token = $this->tokenizer->nextToken();
 
         return $this->decodeToken($token);
+    }
+
+    /**
+     * @return array
+     */
+    public function decodeAll($terminalType = null)
+    {
+        $list = array();
+
+        while (true) {
+            $token = $this->tokenizer->nextToken();
+
+            if (!$token) {
+                return $list;
+            }
+
+            if ($token->getType() == $terminalType) {
+                return $list;
+            }
+
+            $list[] = $this->decodeToken($token);
+        }
+
+        return $list;
     }
 
     /**
@@ -55,14 +76,13 @@ class Decoder
                 return false;
 
             case Token::PAREN_OPEN:
-                return $this->decodeList(Token::PAREN_CLOSE);
+                return $this->decodeAll(Token::PAREN_CLOSE);
 
             case Token::SQUARE_OPEN:
-                return $this->decodeList(Token::SQUARE_CLOSE);
+                return $this->decodeAll(Token::SQUARE_CLOSE);
 
             case Token::HASH:
-                $this->nextToken();
-                return $this->decodeList(Token::BRACE_CLOSE);
+                return $this->decodeTaggedElement();
 
             case Token::BRACE_OPEN:
                 return $this->decodeMap();
@@ -75,36 +95,18 @@ class Decoder
     /**
      * @return array
      */
-    protected function decodeList($terminalToken)
-    {
-        $list = array();
-
-        while (true) {
-            $token = $this->nextToken();
-
-            if ($token->getType() == $terminalToken) {
-                return $list;
-            }
-
-            $list[] = $this->decodeToken($token);
-        }
-    }
-
-    /**
-     * @return array
-     */
     protected function decodeMap()
     {
         $map = array();
 
         while (true) {
-            $keyToken = $this->nextToken();
+            $keyToken = $this->tokenizer->nextToken();
 
             if ($keyToken->getType() == Token::BRACE_CLOSE) {
                 return $map;
             }
 
-            $valueToken = $this->nextToken();
+            $valueToken = $this->tokenizer->nextToken();
             $key = $this->decodeToken($keyToken);
             $value = $this->decodeToken($valueToken);
 
@@ -113,26 +115,16 @@ class Decoder
     }
 
     /**
-     * @return Token|null
+     * @return mixed
      */
-    protected function nextToken()
+    protected function decodeTaggedElement()
     {
-        $token = $this
-            ->tokenizer
-            ->nextToken();
+        $token = $this->tokenizer->nextToken();
 
-        if ($this->debug) {
-            if ($token) {
-                echo sprintf(
-                    "Token: %d, %s\n",
-                    $token->getType(),
-                    $token->getValue()
-                );
-            } else {
-                echo "NO TOKEN\n";
+        foreach ($this->tagHandlers as $handler) {
+            if ($handler->canHandle($token)) {
+                return $handler->handle($this, $this->tokenizer);
             }
         }
-
-        return $token;
     }
 }
