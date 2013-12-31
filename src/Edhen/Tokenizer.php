@@ -125,6 +125,12 @@ class Tokenizer
                         break 2;
                     }
 
+                case Token::COMMENT:
+                    if ($c == "\n") {
+                        $type = null;
+                    }
+                    break;
+
                 default:
                     foreach (static::$CHARACTERS as $char => $token) {
                         if ($c == $char) {
@@ -135,6 +141,8 @@ class Tokenizer
 
                     if ($this->isWhitespace($c)) {
                         continue;
+                    } elseif ($c == ';') {
+                        $type = Token::COMMENT;
                     } elseif ($c == '#') {
                         $type = Token::TAG;
                     } elseif ($c == '\\') {

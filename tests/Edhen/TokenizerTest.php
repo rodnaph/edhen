@@ -200,4 +200,17 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
+    public function testCommentsAreRespected()
+    {
+        $this->assertTokens(
+            "foo;ignore\n" .
+            ";bar\n" .
+            "baz",
+            array(
+                new Token(Token::SYMBOL, 'foo'),
+                new Token(Token::SYMBOL, 'baz')
+            )
+        );
+    }
 }

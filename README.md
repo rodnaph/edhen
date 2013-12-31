@@ -36,12 +36,6 @@ $data = Edhen::decode('(1 :foo [2])');
 | inst  | DateTime |
 | uuid  | string   |
 
-## Unsupported
-
-Currently not supported are:
-
- * [Comments](https://github.com/edn-format/edn#comments)
-
 ## Installation
 
 Edhen can be installed via Composer.

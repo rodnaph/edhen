@@ -80,6 +80,11 @@ class Token
     const TAG = 'tag';
 
     /**
+     * @var string
+     */
+    const COMMENT = 'comment';
+
+    /**
      * @var integer
      */
     private $type;
