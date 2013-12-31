@@ -24,7 +24,7 @@ class InstHandler implements TagHandler
      */
     public function handle(Decoder $decoder, Tokenizer $tokenizer)
     {
-        $token = $tokenizer->nextToken(Token::LITERAL);
+        $token = $tokenizer->expectToken(Token::LITERAL);
 
         return DateTime::createFromFormat(DateTime::RFC3339, $token->getValue());
     }

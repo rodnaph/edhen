@@ -22,6 +22,33 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($tokenizer->nextToken());
     }
 
+    /**
+     * @expectedException Edhen\UnexpectedTokenException
+     */
+    public function testExceptionThrownWhenUnexpectedTokenFound()
+    {
+        $tokenizer = new Tokenizer(':foo');
+        $tokenizer->expectToken(Token::SYMBOL);
+    }
+
+    /**
+     * @expectedException Edhen\UnexpectedTokenException
+     */
+    public function testExceptionThrownWhenNoTokenButOneIsExpected()
+    {
+        $tokenizer = new Tokenizer('');
+        $tokenizer->expectToken(Token::SYMBOL);
+    }
+
+    public function testTokenReturnedWhenMatchesTypeExpected()
+    {
+        $tokenizer = new Tokenizer(':foo');
+        $token = $tokenizer->expectToken(Token::KEYWORD);
+
+        $this->assertEquals(Token::KEYWORD, $token->getType());
+        $this->assertEquals(':foo', $token->getValue());
+    }
+
     public function testBooleansCanBeRead()
     {
         $this->assertTokens(

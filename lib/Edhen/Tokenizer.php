@@ -52,6 +52,22 @@ class Tokenizer
     }
 
     /**
+     * @param string $expectedType
+     *
+     * @return Token
+     */
+    public function expectToken($expectedType)
+    {
+        $token = $this->nextToken();
+
+        if (!$token || $token->getType() != $expectedType) {
+            throw new UnexpectedTokenException($expectedType, $token);
+        }
+
+        return $token;
+    }
+
+    /**
      * @return Token|null
      */
     public function nextToken()

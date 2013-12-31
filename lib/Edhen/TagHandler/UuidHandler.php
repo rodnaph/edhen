@@ -23,8 +23,8 @@ class UuidHandler implements TagHandler
      */
     public function handle(Decoder $decoder, Tokenizer $tokenizer)
     {
-        $token = $tokenizer->nextToken();
-
-        return $token->getValue();
+        return $tokenizer
+            ->expectToken(Token::LITERAL)
+            ->getValue();
     }
 }
