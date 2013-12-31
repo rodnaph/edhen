@@ -127,7 +127,9 @@ class Decoder
     }
 
     /**
-     * @return mixed
+     * @return array
+     *
+     * @throws UnknownTagException
      */
     protected function decodeTaggedElement(Token $token)
     {
