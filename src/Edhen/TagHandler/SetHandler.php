@@ -13,7 +13,8 @@ class SetHandler implements TagHandler
      */
     public function canHandle(Token $token)
     {
-        return $token->getType() == Token::BRACE_OPEN;
+        return $token->getType() == Token::TAG
+            && $token->getValue() == '{';
     }
 
     /**

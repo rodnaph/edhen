@@ -7,7 +7,7 @@ class UuidHandler extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function getSymbolValue()
+    public function getTagValue()
     {
         return 'uuid';
     }

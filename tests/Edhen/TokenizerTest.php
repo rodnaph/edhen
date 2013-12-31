@@ -198,11 +198,32 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
         $this->assertTokens(
             '#{1 :foo}',
             array(
-                new Token(Token::HASH),
-                new Token(Token::BRACE_OPEN),
+                new Token(Token::TAG, '{'),
                 new Token(Token::NUMERIC, '1'),
                 new Token(Token::KEYWORD, ':foo'),
                 new Token(Token::BRACE_CLOSE)
+            )
+        );
+    }
+
+    public function testBuiltinTagsCanBeRead()
+    {
+        $this->assertTokens(
+            '#_foo',
+            array(
+                new Token(Token::TAG, '_'),
+                new Token(Token::SYMBOL, 'foo')
+            )
+        );
+    }
+
+    public function testUserDefinedTagsCanBeRead()
+    {
+        $this->assertTokens(
+            '#inst "abc"',
+            array(
+                new Token(Token::TAG, 'inst'),
+                new Token(Token::LITERAL, 'abc')
             )
         );
     }

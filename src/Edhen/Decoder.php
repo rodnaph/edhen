@@ -85,8 +85,8 @@ class Decoder
             case Token::SQUARE_OPEN:
                 return $this->decodeAll(Token::SQUARE_CLOSE);
 
-            case Token::HASH:
-                return $this->decodeTaggedElement();
+            case Token::TAG:
+                return $this->decodeTaggedElement($token);
 
             case Token::BRACE_OPEN:
                 return $this->decodeMap();
@@ -121,13 +121,11 @@ class Decoder
     /**
      * @return mixed
      */
-    protected function decodeTaggedElement()
+    protected function decodeTaggedElement(Token $token)
     {
-        $token = $this->tokenizer->nextToken();
-
         foreach ($this->tagHandlers as $handler) {
             if ($handler->canHandle($token)) {
-                return $handler->decode($this, $this->tokenizer);
+                return $handler->decode($this);
             }
         }
     }

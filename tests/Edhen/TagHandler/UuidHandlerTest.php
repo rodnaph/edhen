@@ -15,8 +15,8 @@ class UuidHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testCanHandle()
     {
-        $this->assertTrue($this->handler->canHandle(new Token(Token::SYMBOL, 'uuid')));
-        $this->assertFalse($this->handler->canHandle(new Token(Token::HASH)));
+        $this->assertTrue($this->handler->canHandle(new Token(Token::TAG, 'uuid')));
+        $this->assertFalse($this->handler->canHandle(new Token(Token::SYMBOL)));
     }
 
     public function testDecodingAUuid()

@@ -13,8 +13,8 @@ abstract class BaseHandler implements TagHandler
      */
     public function canHandle(Token $token)
     {
-        return $token->getType() == Token::SYMBOL
-            && $token->getValue() == $this->getSymbolValue();
+        return $token->getType() == Token::TAG
+            && $token->getValue() == $this->getTagValue();
     }
 
     /**
@@ -38,5 +38,5 @@ abstract class BaseHandler implements TagHandler
     /**
      * @return string
      */
-    abstract protected function getSymbolValue();
+    abstract protected function getTagValue();
 }

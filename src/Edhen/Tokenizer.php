@@ -13,8 +13,7 @@ class Tokenizer
         '(' => Token::PAREN_OPEN,
         ')' => Token::PAREN_CLOSE,
         '[' => Token::SQUARE_OPEN,
-        ']' => Token::SQUARE_CLOSE,
-        '#' => Token::HASH
+        ']' => Token::SQUARE_CLOSE
     );
 
     /**
@@ -131,6 +130,17 @@ class Tokenizer
                     $value = $c;
                     break;
 
+                case Token::TAG:
+                    if ($this->isTagCharacter($c)) {
+                        $value .= $c;
+                        break;
+                    } elseif (!$value) {
+                        $value = $c;
+                        break 2;
+                    } else {
+                        break 2;
+                    }
+
                 default:
                     foreach (static::$CHARACTERS as $char => $token) {
                         if ($c == $char) {
@@ -140,6 +150,8 @@ class Tokenizer
 
                     if ($this->isWhitespace($c)) {
                         continue;
+                    } elseif ($c == '#') {
+                        $type = Token::TAG;
                     } elseif ($c == '\\') {
                         $type = Token::CHARACTER;
                     } elseif ($c == ':') {
@@ -166,9 +178,19 @@ class Tokenizer
         }
 
         if ($type) {
-            return $type == Token::SYMBOL
+            $token = $type == Token::SYMBOL
                 ? $this->interpretSymbol($value)
                 : new Token($type, $value);
+
+            if ($this->debug) {
+                echo sprintf(
+                    "Token: %s '%s'",
+                    $token->getType(),
+                    $token->getValue()
+                );
+            }
+
+            return $token;
         }
     }
 
@@ -267,5 +289,15 @@ class Tokenizer
     protected function isNumericCharacter($c)
     {
         return preg_match('/^[0-9\.]$/', $c);
+    }
+
+    /**
+     * @param string $c
+     *
+     * @return boolean
+     */
+    protected function isTagCharacter($c)
+    {
+        return preg_match('/^[a-z]$/i', $c);
     }
 }

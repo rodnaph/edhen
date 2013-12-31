@@ -9,7 +9,7 @@ class InstHandler extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function getSymbolValue()
+    public function getTagValue()
     {
         return 'inst';
     }

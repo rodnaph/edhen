@@ -77,7 +77,7 @@ class Token
     /**
      * @var string
      */
-    const HASH = 'hash';
+    const TAG = 'tag';
 
     /**
      * @var integer
