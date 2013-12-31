@@ -2,7 +2,9 @@
 
 namespace Edhen;
 
+use Edhen\TagHandler\InstHandler;
 use Edhen\TagHandler\SetHandler;
+use Edhen\TagHandler\UuidHandler;
 
 class Decoder
 {
@@ -23,7 +25,9 @@ class Decoder
     {
         $this->tokenizer = $tokenizer;
         $this->tagHandlers = array(
-            new SetHandler()
+            new SetHandler(),
+            new InstHandler(),
+            new UuidHandler()
         );
     }
 

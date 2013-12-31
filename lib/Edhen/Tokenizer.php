@@ -60,7 +60,7 @@ class Tokenizer
         $value = '';
         $b = null;
 
-        while ($c = $this->nextChar()) {
+        while (($c = $this->nextChar()) !== null) {
 
             if ($this->debug) {
                 echo "Character: $c\n";

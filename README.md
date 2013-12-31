@@ -33,7 +33,6 @@ $data = Edhen::decode('(1 :foo [2])');
 
 Currently not supported are:
 
- * [Tagged elements](https://github.com/edn-format/edn#tagged-elements)
  * [Comments](https://github.com/edn-format/edn#comments)
  * [Discard](https://github.com/edn-format/edn#discard)
 
