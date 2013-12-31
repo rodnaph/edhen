@@ -26,12 +26,19 @@ class Decoder
     public function __construct(Tokenizer $tokenizer)
     {
         $this->tokenizer = $tokenizer;
-        $this->tagHandlers = array(
-            new SetHandler(),
-            new InstHandler(),
-            new UuidHandler(),
-            new DiscardHandler()
-        );
+        $this->tagHandlers = array();
+
+        $this->addDefaultTagHandlers();
+    }
+
+    /**
+     * @param TagHandler $tagHandler
+     *
+     * @return Decoder
+     */
+    public function addTagHandler(TagHandler $tagHandler)
+    {
+        $this->tagHandlers[] = $tagHandler;
     }
 
     /**
@@ -67,6 +74,17 @@ class Decoder
 
             $list = array_merge($list, $tokens);
         }
+    }
+
+    /**
+     * Override to customize tag handlers
+     */
+    protected function addDefaultTagHandlers()
+    {
+        $this->addTagHandler(new SetHandler());
+        $this->addTagHandler(new InstHandler());
+        $this->addTagHandler(new UuidHandler());
+        $this->addTagHandler(new DiscardHandler());
     }
 
     /**
