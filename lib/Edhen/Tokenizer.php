@@ -2,6 +2,9 @@
 
 namespace Edhen;
 
+use Edhen\Exception\TokenizerException;
+use Edhen\Exception\UnexpectedTokenException;
+
 class Tokenizer
 {
     private static $CHARACTERS = array(

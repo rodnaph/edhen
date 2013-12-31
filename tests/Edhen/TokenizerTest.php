@@ -23,7 +23,7 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Edhen\UnexpectedTokenException
+     * @expectedException Edhen\Exception\UnexpectedTokenException
      */
     public function testExceptionThrownWhenUnexpectedTokenFound()
     {
@@ -32,7 +32,7 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Edhen\UnexpectedTokenException
+     * @expectedException Edhen\Exception\UnexpectedTokenException
      */
     public function testExceptionThrownWhenNoTokenButOneIsExpected()
     {
@@ -133,7 +133,7 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Edhen\TokenizerException
+     * @expectedException Edhen\Exception\TokenizerException
      */
     public function testExceptionThrownOnInvalidCharacter()
     {

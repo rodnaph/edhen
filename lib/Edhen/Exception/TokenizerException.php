@@ -1,6 +1,6 @@
 <?php
 
-namespace Edhen;
+namespace Edhen\Exception;
 
 class TokenizerException extends \RuntimeException
 {

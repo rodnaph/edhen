@@ -1,6 +1,8 @@
 <?php
 
-namespace Edhen;
+namespace Edhen\Exception;
+
+use Edhen\Token;
 
 class UnexpectedTokenException extends \RuntimeException
 {
