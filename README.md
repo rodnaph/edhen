@@ -29,7 +29,7 @@ $data = Edhen::decode('(1 :foo [2])');
 | maps              | array   |
 | sets              | array   |
 
-### Built Tags
+### Builtin Tags
 
 | EDN   | PHP      |
 | ----- | -------- |
