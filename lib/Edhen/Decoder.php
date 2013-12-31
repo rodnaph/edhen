@@ -60,12 +60,12 @@ class Decoder
             case Token::SQUARE_OPEN:
                 return $this->decodeList(Token::SQUARE_CLOSE);
 
-            case Token::BRACE_OPEN:
-                return $this->decodeMap();
-
             case Token::HASH:
                 $this->nextToken();
                 return $this->decodeList(Token::BRACE_CLOSE);
+
+            case Token::BRACE_OPEN:
+                return $this->decodeMap();
 
             default:
                 return $token->getValue();
@@ -79,15 +79,15 @@ class Decoder
     {
         $list = array();
 
-        while ($token = $this->nextToken()) {
+        while (true) {
+            $token = $this->nextToken();
+
             if ($token->getType() == $terminalToken) {
-                break;
+                return $list;
             }
 
             $list[] = $this->decodeToken($token);
         }
-
-        return $list;
     }
 
     /**
