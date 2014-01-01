@@ -1,10 +1,23 @@
 <?php
 
-use Edhen\Tokenizer;
 use Edhen\Decoder;
+use Edhen\Encoder;
+use Edhen\Tokenizer;
 
 class Edhen
 {
+    /**
+     * @param mixed $data
+     *
+     * @return string
+     */
+    public static function encode($data)
+    {
+        $encoder = new Encoder();
+
+        return $encoder->encode($data);
+    }
+
     /**
      * @param string $edn
      * @param array $tagHandlers

@@ -32,6 +32,26 @@ class EdhenTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(4, Edhen::decode('#double 2', array(new DoubleHandler())));
     }
+
+    public function testEncodingSingleElements()
+    {
+        $object = new \stdclass();
+        $object->foo = 1;
+        $resource = fopen(__FILE__, 'r');
+        $callable = function () {};
+
+        $this->assertEquals('nil', Edhen::encode(null));
+        $this->assertEquals('true', Edhen::encode(true));
+        $this->assertEquals('false', Edhen::encode(false));
+        $this->assertEquals('123', Edhen::encode(123));
+        $this->assertEquals('123.45', Edhen::encode(123.45));
+        $this->assertEquals('"foo\"bar"', Edhen::encode('foo"bar'));
+        $this->assertEquals('[1 2]', Edhen::encode(array(1, 2)));
+        $this->assertEquals('{"foo" 1}', Edhen::encode(array('foo' => 1)));
+        $this->assertEquals('{"foo" 1}', Edhen::encode($object));
+        $this->assertEquals('nil', Edhen::encode($resource));
+        $this->assertEquals('nil', Edhen::encode($callable));
+    }
 }
 
 class DoubleHandler implements TagHandler
