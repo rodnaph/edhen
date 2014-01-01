@@ -58,7 +58,7 @@ $myHandler = new MyCustomTagHandler();
 $element = Edhen::decode($edn, array($myHandler));
 ```
 
-You can see an [example in the tests](tests/EdhenTest.php#31).
+You can see an [example in the tests](tests/EdhenTest.php#L31).
 
 ## Installation
 
