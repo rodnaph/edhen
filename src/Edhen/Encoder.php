@@ -52,18 +52,6 @@ class Encoder
     }
 
     /**
-     * @param string $data
-     *
-     * @return string
-     */
-    public function encode($data)
-    {
-        $encoder = static::getEncoder();
-
-        return $encoder($data);
-    }
-
-    /**
      * @param callable $callable
      *
      * @return string
@@ -93,6 +81,18 @@ class Encoder
         $vars = get_object_vars($object);
 
         return static::encodeAssocArray($vars);
+    }
+
+    /**
+     * @param string $data
+     *
+     * @return string
+     */
+    public function encode($data)
+    {
+        $encoder = static::getEncoder();
+
+        return $encoder($data);
     }
 
     /**
