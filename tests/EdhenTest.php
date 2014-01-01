@@ -32,6 +32,10 @@ class EdhenTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(4, Edhen::decode('#double 2', array(new DoubleHandler())));
     }
+
+    public function testEncodingSingleElements()
+    {
+    }
 }
 
 class DoubleHandler implements TagHandler
