@@ -47,11 +47,11 @@ class Decoder
     public function decode()
     {
         $token = $this->tokenizer->nextToken();
-        $tokens = $this->decodeToken($token);
+        $elements = $this->decodeToken($token);
 
-        return empty($tokens)
+        return empty($elements)
             ? null
-            : $tokens[0];
+            : $elements[0];
     }
 
     /**
@@ -70,9 +70,9 @@ class Decoder
                 return $list;
             }
 
-            $tokens = $this->decodeToken($token);
+            $elements = $this->decodeToken($token);
 
-            $list = array_merge($list, $tokens);
+            $list = array_merge($list, $elements);
         }
     }
 

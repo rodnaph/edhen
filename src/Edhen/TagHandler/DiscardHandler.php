@@ -4,12 +4,18 @@ namespace Edhen\TagHandler;
 
 class DiscardHandler extends BaseHandler
 {
+    /**
+     * {@inheritDoc}
+     */
     protected function getTagValue()
     {
         return '_';
     }
 
-    protected function convert($data)
+    /**
+     * {@inheritDoc}
+     */
+    protected function convert($element)
     {
         return array();
     }

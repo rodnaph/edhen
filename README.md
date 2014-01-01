@@ -8,7 +8,17 @@ A simple parser to decode [EDN](https://github.com/edn-format/edn) to [PHP](http
 The interface is via some static functions on the _Edhen_ class.
 
 ```php
-$data = Edhen::decode('(1 :foo [2])');
+$element = Edhen::decode('(1 :foo [2])');
+
+// array(1, ':foo', array(2))
+```
+
+If you have EDN with multiple elements, you can use _decodeAll_
+
+```php
+$elements = Edhen::decodeAll(':foo :bar :baz');
+
+// array(':foo', ':bar', ':baz')
 ```
 
 ## Data Type Translations
@@ -35,6 +45,18 @@ $data = Edhen::decode('(1 :foo [2])');
 | ----- | -------- |
 | inst  | DateTime |
 | uuid  | string   |
+
+## Custom Tag Handlers
+
+To implement your own [tag handlers](https://github.com/edn-format/edn#tagged-elements),
+create a class which implements the [Edhen\TagHandler](blob/master/src/Edhen/TagHandler.php)
+interface and pass it in an array as the second argument to _decode_/_decodeAll_
+
+```php
+$myHandler = new MyCustomTagHandler();
+
+$element = Edhen::decode($edn, array($myHandler));
+```
 
 ## Installation
 

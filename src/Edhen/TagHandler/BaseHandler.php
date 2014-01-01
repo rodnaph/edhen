@@ -28,13 +28,13 @@ abstract class BaseHandler implements TagHandler
     }
 
     /**
-     * @param mixed $data
+     * @param mixed $element
      *
      * @return array
      */
-    protected function convert($data)
+    protected function convert($element)
     {
-        return array($data);
+        return array($element);
     }
 
     /**

@@ -17,10 +17,10 @@ class InstHandler extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function convert($data)
+    public function convert($element)
     {
         return array(
-            DateTime::createFromFormat(DateTime::RFC3339, $data)
+            DateTime::createFromFormat(DateTime::RFC3339, $element)
         );
     }
 }

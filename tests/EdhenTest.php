@@ -1,8 +1,12 @@
 <?php
 
+use Edhen\Decoder;
+use Edhen\TagHandler;
+use Edhen\Token;
+
 class EdhenTest extends PHPUnit_Framework_TestCase
 {
-    public function testDataCanBeDecodedFromEdn()
+    public function testDecodingSingleElements()
     {
         $this->assertEquals(null, Edhen::decode('nil'));
         $this->assertEquals(true, Edhen::decode('true'));
@@ -17,5 +21,30 @@ class EdhenTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(':bar', 2), Edhen::decode('[:bar 2]'));
         $this->assertEquals(array(':baz' => 1), Edhen::decode('{:baz 1}'));
         $this->assertEquals(array(4, 5), Edhen::decode('#{4 5}'));
+    }
+
+    public function testDecodingMultipleElements()
+    {
+        $this->assertEquals(array(':foo', 1), Edhen::decodeAll(':foo 1'));
+    }
+
+    public function testCustomTagHandlersCanBeUsed()
+    {
+        $this->assertEquals(4, Edhen::decode('#double 2', array(new DoubleHandler())));
+    }
+}
+
+class DoubleHandler implements TagHandler
+{
+    public function canHandle(Token $token)
+    {
+        return $token->getValue() == 'double';
+    }
+
+    public function decode(Decoder $decoder)
+    {
+        $element = $decoder->decode();
+
+        return array($element * 2);
     }
 }
