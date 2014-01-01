@@ -7,6 +7,14 @@ use Closure;
 class Encoder
 {
     /**
+     * @return string
+     */
+    public static function encodeNull()
+    {
+        return 'nil';
+    }
+
+    /**
      * @param boolean $boolean
      *
      * @return string
@@ -107,7 +115,7 @@ class Encoder
 
             switch (gettype($data)) {
                 case 'NULL':
-                    return 'nil';
+                    return Encoder::encodeNull();
                 case 'boolean':
                     return Encoder::encodeBoolean($data);
                 case 'string':
