@@ -49,7 +49,7 @@ $elements = Edhen::decodeAll(':foo :bar :baz');
 ## Custom Tag Handlers
 
 To implement your own [tag handlers](https://github.com/edn-format/edn#tagged-elements),
-create a class which implements the [Edhen\TagHandler](blob/master/src/Edhen/TagHandler.php)
+create a class which implements the [Edhen\TagHandler](src/Edhen/TagHandler.php)
 interface and pass it in an array as the second argument to _decode_/_decodeAll_
 
 ```php
@@ -57,6 +57,8 @@ $myHandler = new MyCustomTagHandler();
 
 $element = Edhen::decode($edn, array($myHandler));
 ```
+
+You can see an [example in the tests](tests/EdhenTest.php).
 
 ## Installation
 
