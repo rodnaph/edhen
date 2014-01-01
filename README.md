@@ -1,5 +1,5 @@
 
-# Edhen - Encode/Decode EDN in PHP
+# Encode/Decode EDN in PHP
 
 A tool to encode/decode between [EDN](https://github.com/edn-format/edn) and
 [PHP](http://www.php.net) data structures.
@@ -40,6 +40,8 @@ $ednString = Edhen::encode(array(1, 2));
 
 ## Data Type Translations
 
+When decoding EDN to PHP...
+
 | EDN               | PHP     |
 | ----------------- | ------- |
 | nil               | null    |
@@ -63,7 +65,7 @@ $ednString = Edhen::encode(array(1, 2));
 | inst  | DateTime |
 | uuid  | string   |
 
-When encoding PHP data as EDN...
+When encoding PHP to EDN...
 
 | PHP           | EDN     |
 | ------------- | ------- |
@@ -79,6 +81,9 @@ When encoding PHP data as EDN...
 
 The decision on if an array is to be converted to a vector or hashmap is done by 
 checking its keys.  If any of the keys are non-numeric then a hashmap is used.
+
+EDN is generated as a single string, no pretty-printing is currently supported.
+Another tool should be used for this.
 
 ## Custom Tag Handlers
 
