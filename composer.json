@@ -1,6 +1,6 @@
 {
     "name": "rodnaph/edhen",
-    "description": "EDN to PHP",
+    "description": "Encode/Decode EDN",
     "autoload": {
         "psr-0": {
             "": "src/"

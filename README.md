@@ -1,11 +1,20 @@
 
-# Edhen - EDN to PHP
+# Edhen - Encode/Decode EDN in PHP
 
-A simple parser to decode [EDN](https://github.com/edn-format/edn) to [PHP](http://www.php.net) data structures.
+A tool to encode/decode between [EDN](https://github.com/edn-format/edn) and
+[PHP](http://www.php.net) data structures.
+
+### Note
+
+When converting from EDN to PHP the conversion is lossy as the richness of 
+datatypes supported by EDN is not available in PHP.  So a conversion from
+EDN to PHP and back to EDN would not lose you data, but it would lose type
+information.
 
 ## Usage
 
-The interface is via some static functions on the _Edhen_ class.
+The interface is via some static functions on the _Edhen_ class.  To decode an
+EDN element...
 
 ```php
 $element = Edhen::decode('(1 :foo [2])');
@@ -19,6 +28,14 @@ If you have EDN with multiple elements, you can use _decodeAll_
 $elements = Edhen::decodeAll(':foo :bar :baz');
 
 // array(':foo', ':bar', ':baz')
+```
+
+Then for encoding use the _encode_ function, passing it the data to encode...
+
+```php
+$ednString = Edhen::encode(array(1, 2));
+
+// '[1 2]'
 ```
 
 ## Data Type Translations
@@ -45,6 +62,23 @@ $elements = Edhen::decodeAll(':foo :bar :baz');
 | ----- | -------- |
 | inst  | DateTime |
 | uuid  | string   |
+
+When encoding PHP data as EDN...
+
+| PHP           | EDN     |
+| ------------- | ------- |
+| null          | nil     |
+| boolean       | boolean |
+| integer       | integer |
+| double        | float   |
+| array         | vector  |
+| array (assoc) | hashmap |
+| object        | hashmap |
+| resource      | nil     |
+| callable      | nil     |
+
+The decision on if an array is to be converted to a vector or hashmap is done by 
+checking its keys.  If any of the keys are non-numeric then a hashmap is used.
 
 ## Custom Tag Handlers
 
