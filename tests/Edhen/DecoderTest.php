@@ -41,7 +41,7 @@ class DecoderTest extends \PHPUnit_Framework_TestCase
 
     public function testKeywordsAreDecodedToStrings()
     {
-        $this->assertDecode(':foo', ':foo');
+        $this->assertDecode('foo', ':foo');
     }
 
     public function testCharactersAreDecodedToStrings()
@@ -56,43 +56,43 @@ class DecoderTest extends \PHPUnit_Framework_TestCase
 
     public function testListsAreDecodedToArrays()
     {
-        $this->assertDecode(array(':foo'), '(:foo)');
+        $this->assertDecode(array('foo'), '(:foo)');
         $this->assertDecode(array(1, 2), '(1 2)');
         $this->assertDecode(array(1, 2), '(1, 2)');
     }
 
     public function testVectorsAreDecodedToArrays()
     {
-        $this->assertDecode(array(':foo'), '[:foo]');
+        $this->assertDecode(array('foo'), '[:foo]');
         $this->assertDecode(array(1, 2), '[1 2]');
         $this->assertDecode(array(1, 2), '[1, 2]');
     }
 
     public function testMapsAreDecodedToAssocArrays()
     {
-        $this->assertDecode(array(':foo' => 123), '{:foo 123}');
+        $this->assertDecode(array('foo' => 123), '{:foo 123}');
     }
 
     public function testDecodingEmbeddedDataStructures()
     {
-        $this->assertDecode(array(':foo' => array(1, 2, 3)), '{:foo [1 2 3]}');
+        $this->assertDecode(array('foo' => array(1, 2, 3)), '{:foo [1 2 3]}');
     }
 
     public function testSetsAreDecodedToArrays()
     {
-        $this->assertDecode(array(1, ':foo'), '#{1 :foo}');
+        $this->assertDecode(array(1, 'foo'), '#{1 :foo}');
     }
 
     public function testMultipleEntitiesCanBeDecoded()
     {
-        $this->assertDecodeAll(array(':foo', array(1, 2)), ':foo [1 2]');
+        $this->assertDecodeAll(array('foo', array(1, 2)), ':foo [1 2]');
     }
 
     public function testDecodingCanStopAtATerminalTokenType()
     {
         $this->assertEquals(
-            array(':foo'),
-            $this->decoder(':foo [1 2]')->decodeAll(Token::SQUARE_OPEN)
+            array('foo'),
+            $this->decoder('foo [1 2]')->decodeAll(Token::SQUARE_OPEN)
         );
     }
 

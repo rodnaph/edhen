@@ -113,6 +113,9 @@ class Decoder
             case Token::BRACE_OPEN:
                 return array($this->decodeMap());
 
+            case Token::KEYWORD:
+                return array(substr($token->getValue(), 1));
+
             default:
                 return array($token->getValue());
         }
