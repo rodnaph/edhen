@@ -111,6 +111,11 @@ class DecoderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testDecodingGreaterThanAndLessThan()
+    {
+        $this->decoder('(and (> v) (< v))')->decode();
+    }
+
     public function testUuidsAreDecoded()
     {
         $uuid = 'f81d4fae-7dec-11d0-a765-00a0c91e6bf6';
