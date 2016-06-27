@@ -57,10 +57,11 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
     public function testSymbolsCanBeRead()
     {
         $this->assertTokens(
-            'foo .*+!-_?$%&=#:',
+            'foo .*+!-_?$%&=#: foo.bar/baz',
             array(
                 new Token(Token::SYMBOL, 'foo'),
-                new Token(Token::SYMBOL, '.*+!-_?$%&=#:')
+                new Token(Token::SYMBOL, '.*+!-_?$%&=#:'),
+                new Token(Token::SYMBOL, 'foo.bar/baz')
             )
         );
     }

@@ -245,7 +245,7 @@ class Tokenizer
      */
     protected function isSymbolCharacter($c)
     {
-        return preg_match('/^[0-9a-z.*+!\-_?$%&=#:]+$/i', $c);
+        return preg_match('/^[0-9a-z.*+\/!\-_?$%&=#:]+$/i', $c);
     }
 
     /**

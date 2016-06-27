@@ -126,6 +126,14 @@ class DecoderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testNamespacedSymbols()
+    {
+        $this->assertEquals(
+            ['foo.bar/baz', '123'],
+            $this->decoder('(foo.bar/baz 123)')->decode()
+        );
+    }
+
     /**
      * @expectedException Edhen\Exception\UnknownTagException
      */
