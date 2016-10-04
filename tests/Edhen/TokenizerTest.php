@@ -76,6 +76,16 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testMultiLineLiteralsCanBeRead()
+    {
+        $this->assertTokens(
+            "\"foo\nbar\"",
+            array(
+                new Token(Token::LITERAL, "foo\nbar")
+            )
+        );
+    }
+
     public function testCharactersCanBeRead()
     {
         $this->assertTokens(

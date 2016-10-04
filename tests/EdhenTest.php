@@ -12,6 +12,7 @@ class EdhenTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(true, Edhen::decode('true'));
         $this->assertEquals(false, Edhen::decode('false'));
         $this->assertEquals('Hello, World',Edhen::decode('"Hello, World"'));
+        $this->assertEquals("Hello,\nWorld",Edhen::decode('"Hello,\nWorld"'));
         $this->assertEquals("a", Edhen::decode('\a'));
         $this->assertEquals('foo', Edhen::decode('foo'));
         $this->assertEquals('foo/bar', Edhen::decode(':foo/bar'));
