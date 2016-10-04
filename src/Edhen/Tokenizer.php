@@ -98,10 +98,10 @@ class Tokenizer
                     }
 
                 case Token::LITERAL:
-                    if ($c == '\\') {
+                    if ($b == '\\') {
+                        $value .= $this->unescape($c);
                         break;
-                    } elseif ($b == '\\') {
-                        $value .= $c;
+                    } elseif ($c == '\\') {
                         break;
                     } elseif ($c != '"') {
                         $value .= $c;
@@ -296,5 +296,27 @@ class Tokenizer
     protected function isTagCharacter($c)
     {
         return preg_match('/^[a-z]$/i', $c);
+    }
+
+    /**
+     * @param string $c
+     *
+     * @return string
+     */
+    protected function unescape($c)
+    {
+        switch ($c) {
+            case '"': return '"';
+            case 'r': return "\r";
+            case 'n': return "\n";
+            case 't': return "\t";
+            default:
+                throw new TokenizerException(
+                    sprintf(
+                        'Unsupported escape character: %s',
+                        $c
+                    )
+                );
+        }
     }
 }

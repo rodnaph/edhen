@@ -66,12 +66,22 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testLteralsCanBeRead()
+    public function testLiteralsCanBeRead()
     {
         $this->assertTokens(
             '"this is a \"string\""',
             array(
                 new Token(Token::LITERAL, 'this is a "string"')
+            )
+        );
+    }
+
+    public function testEscapeCharactersInLiteralsCanBeRead()
+    {
+        $this->assertTokens(
+            '"\r\n\t"',
+            array(
+                new Token(Token::LITERAL, "\r\n\t")
             )
         );
     }
