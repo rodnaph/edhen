@@ -2,6 +2,8 @@
 
 namespace Edhen;
 
+use Edhen\Exception\TokenizerException;
+
 class Token
 {
     /**
@@ -102,6 +104,8 @@ class Token
     {
         $this->type = $type;
         $this->value = $value;
+
+        $this->validateSymbolSlashes();
     }
 
     /**
@@ -118,5 +122,32 @@ class Token
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Validate a symbol contains up to one forward slash, and that either it is either a single
+     * slash character or it separates a prefix and name parts. See https://github.com/edn-format/edn#symbols
+     */
+    private function validateSymbolSlashes()
+    {
+        if ($this->type !== Token::SYMBOL) {
+            return;
+        }
+
+        if (substr_count($this->value, "/") > 1) {
+            throw new TokenizerException("Invalid symbol '$this->value': Symbols can only contain zero or one slashes");
+        }
+
+        $slashPosition = strpos($this->value, "/");
+        if ($slashPosition !== false) {
+            if (strlen($this->value) > 1) {
+                if ($slashPosition == 0) {
+                    throw new TokenizerException("Invalid symbol '$this->value': Symbols cannot start with a slash");
+                }
+                if ($slashPosition == strlen($this->value) - 1) {
+                    throw new TokenizerException("Invalid symbol '$this->value': Symbols cannot end with a slash");
+                }
+            }
+        }
     }
 }
