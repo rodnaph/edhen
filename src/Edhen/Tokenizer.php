@@ -326,6 +326,10 @@ class Tokenizer
         // Validate it contains up to one forward slash, and that either it is either a single
         // slash character or it separates a prefix and name parts. See https://github.com/edn-format/edn#symbols
 
+        if (substr_count($value, "/") > 1) {
+            throw new TokenizerException("Invalid symbol '$value': Symbols can only contain zero or one slashes");
+        }
+
         $slashPosition = strpos($value, "/");
         if ($slashPosition !== false) {
             if (strlen($value) > 1) {
@@ -336,6 +340,7 @@ class Tokenizer
                     throw new TokenizerException("Invalid symbol '$value': Symbols cannot end with a slash");
                 }
             }
+
         }
 
 

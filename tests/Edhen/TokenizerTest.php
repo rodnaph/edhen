@@ -236,7 +236,7 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testValidSymbolsWithSlashesCanBeRead()
+    public function testValidSymbolsWithASlashCanBeRead()
     {
         $this->assertTokens(
             "/",
@@ -253,7 +253,7 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testInvalidSymbolsWithSlashesCannotBeRead()
+    public function testInvalidSymbolsWithASlashCannotBeRead()
     {
         try {
             $thrown = false;
@@ -276,6 +276,33 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
         } finally {
             if (!$thrown) {
                 $this->fail("Failed to throw during tokenization of invalid symbol (end with slash)");
+            }
+        }
+    }
+
+    public function testSymbolsWithMultipleSlashesCannotBeRead()
+    {
+        try {
+            $thrown = false;
+            $tokenizer = new Tokenizer("namespace//name");
+            $tokenizer->nextToken();
+        } catch (TokenizerException $e) {
+            $thrown = true;
+        } finally {
+            if (!$thrown) {
+                $this->fail("Failed to throw during tokenization of invalid symbol (with more than one slash)");
+            }
+        }
+
+        try {
+            $thrown = false;
+            $tokenizer = new Tokenizer("//");
+            $tokenizer->nextToken();
+        } catch (TokenizerException $e) {
+            $thrown = true;
+        } finally {
+            if (!$thrown) {
+                $this->fail("Failed to throw during tokenization of invalid symbol (with more than one slash)");
             }
         }
     }
