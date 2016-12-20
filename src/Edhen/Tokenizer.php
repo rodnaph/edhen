@@ -206,6 +206,7 @@ class Tokenizer
             case 'nil':
                 return new Token(Token::NIL);
             default:
+                $this->validateSymbol($value);
                 return new Token(Token::SYMBOL, $value);
         }
     }
@@ -235,7 +236,7 @@ class Tokenizer
      */
     protected function isSymbolStart($c)
     {
-        return preg_match('/^[<>0-9a-z.*+!\-_?$%&=]+$/i', $c);
+        return preg_match('/^[<>0-9a-z.*+!\-_?$%&=\/]+$/i', $c);
     }
 
     /**
@@ -318,5 +319,25 @@ class Tokenizer
                     )
                 );
         }
+    }
+
+    private function validateSymbol($value)
+    {
+        // Validate it contains up to one forward slash, and that either it is either a single
+        // slash character or it separates a prefix and name parts. See https://github.com/edn-format/edn#symbols
+
+        $slashPosition = strpos($value, "/");
+        if ($slashPosition !== false) {
+            if (strlen($value) > 1) {
+                if ($slashPosition == 0) {
+                    throw new TokenizerException("Invalid symbol '$value': Symbols cannot start with a slash");
+                }
+                if ($slashPosition == strlen($value) - 1) {
+                    throw new TokenizerException("Invalid symbol '$value': Symbols cannot end with a slash");
+                }
+            }
+        }
+
+
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Edhen;
 
+use Edhen\Exception\TokenizerException;
 use Edhen\Token;
 
 class TokenizerTest extends \PHPUnit_Framework_TestCase
@@ -233,5 +234,49 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
                 new Token(Token::SYMBOL, 'baz')
             )
         );
+    }
+
+    public function testValidSymbolsWithSlashesCanBeRead()
+    {
+        $this->assertTokens(
+            "/",
+            array(
+                new Token(Token::SYMBOL, '/')
+            )
+        );
+
+        $this->assertTokens(
+            "namespace/symbol",
+            array(
+                new Token(Token::SYMBOL, 'namespace/symbol')
+            )
+        );
+    }
+
+    public function testInvalidSymbolsWithSlashesCannotBeRead()
+    {
+        try {
+            $thrown = false;
+            $tokenizer = new Tokenizer("/name");
+            $tokenizer->nextToken();
+        } catch (TokenizerException $e) {
+            $thrown = true;
+        } finally {
+            if (!$thrown) {
+                $this->fail("Failed to throw during tokenization of invalid symbol (starting with slash)");
+            }
+        }
+
+        try {
+            $thrown = false;
+            $tokenizer = new Tokenizer("namespace/");
+            $tokenizer->nextToken();
+        } catch (TokenizerException $e) {
+            $thrown = true;
+        } finally {
+            if (!$thrown) {
+                $this->fail("Failed to throw during tokenization of invalid symbol (end with slash)");
+            }
+        }
     }
 }
