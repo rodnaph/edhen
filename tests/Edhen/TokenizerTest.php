@@ -2,6 +2,7 @@
 
 namespace Edhen;
 
+use Edhen\Exception\TokenizerException;
 use Edhen\Token;
 
 class TokenizerTest extends \PHPUnit_Framework_TestCase
@@ -233,5 +234,76 @@ class TokenizerTest extends \PHPUnit_Framework_TestCase
                 new Token(Token::SYMBOL, 'baz')
             )
         );
+    }
+
+    public function testValidSymbolsWithASlashCanBeRead()
+    {
+        $this->assertTokens(
+            "/",
+            array(
+                new Token(Token::SYMBOL, '/')
+            )
+        );
+
+        $this->assertTokens(
+            "namespace/symbol",
+            array(
+                new Token(Token::SYMBOL, 'namespace/symbol')
+            )
+        );
+    }
+
+    public function testInvalidSymbolsWithASlashCannotBeRead()
+    {
+        try {
+            $thrown = false;
+            $tokenizer = new Tokenizer("/name");
+            $tokenizer->nextToken();
+        } catch (TokenizerException $e) {
+            $thrown = true;
+        } finally {
+            if (!$thrown) {
+                $this->fail("Failed to throw during tokenization of invalid symbol (starting with slash)");
+            }
+        }
+
+        try {
+            $thrown = false;
+            $tokenizer = new Tokenizer("namespace/");
+            $tokenizer->nextToken();
+        } catch (TokenizerException $e) {
+            $thrown = true;
+        } finally {
+            if (!$thrown) {
+                $this->fail("Failed to throw during tokenization of invalid symbol (end with slash)");
+            }
+        }
+    }
+
+    public function testSymbolsWithMultipleSlashesCannotBeRead()
+    {
+        try {
+            $thrown = false;
+            $tokenizer = new Tokenizer("namespace//name");
+            $tokenizer->nextToken();
+        } catch (TokenizerException $e) {
+            $thrown = true;
+        } finally {
+            if (!$thrown) {
+                $this->fail("Failed to throw during tokenization of invalid symbol (with more than one slash)");
+            }
+        }
+
+        try {
+            $thrown = false;
+            $tokenizer = new Tokenizer("//");
+            $tokenizer->nextToken();
+        } catch (TokenizerException $e) {
+            $thrown = true;
+        } finally {
+            if (!$thrown) {
+                $this->fail("Failed to throw during tokenization of invalid symbol (with more than one slash)");
+            }
+        }
     }
 }
