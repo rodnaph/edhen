@@ -140,7 +140,7 @@ class Tokenizer
                     }
 
                     if ($this->isWhitespace($c)) {
-                        continue;
+                        continue 2;
                     } elseif ($c == ';') {
                         $type = Token::COMMENT;
                     } elseif ($c == '#') {
