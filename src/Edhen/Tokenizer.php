@@ -80,7 +80,7 @@ class Tokenizer
                     }
 
                 case Token::NUMERIC:
-                    if ($this->isNumericCharacter($c)) {
+                    if ($this->isNumericCharacter($value, $c)) {
                         $value .= $c;
                         break;
                     } else {
@@ -283,9 +283,14 @@ class Tokenizer
      *
      * return boolean
      */
-    protected function isNumericCharacter($c)
-    {
-        return preg_match('/^[0-9\.]$/', $c);
+    protected function isNumericCharacter($value, $c) {
+        if ($c == "-" && substr($value, -1) == "E") {
+            return true;
+        } else if ($c == "E" && strpos($value, "E") === false) {
+            return true;
+        } else {
+            return preg_match('/^[0-9\.]$/', $c);
+        }
     }
 
     /**
